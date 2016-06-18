@@ -1,4 +1,4 @@
-package com.mart.booking.controller;
+package com.mart.booking.resource;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
