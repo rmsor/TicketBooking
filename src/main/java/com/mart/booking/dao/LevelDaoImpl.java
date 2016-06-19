@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mart.booking.domain.Level;
 
 @Repository
-public class LevelDaoImpl implements LevelDao {
+public class LevelDAOImpl implements LevelDAO {
 
 	@Autowired
 	private SessionFactory sessionFactory;
