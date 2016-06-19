@@ -15,6 +15,7 @@
 
 	<context:component-scan base-package="com.mart.booking" />
 	<mvc:annotation-driven />
+	<!-- <mvc:resources mapping="/assets/**" location="/assets/"/>	 -->
 	<tx:annotation-driven />
 
 	<bean

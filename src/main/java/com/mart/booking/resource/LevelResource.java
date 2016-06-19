@@ -16,7 +16,7 @@ import com.mart.booking.data.LevelResponse;
 import com.mart.booking.service.LevelService;
 
 @RestController()
-@RequestMapping(value="rest/level")
+@RequestMapping(value="/rest/level")
 public class LevelResource extends BaseResponse implements Serializable{
 	
 	
