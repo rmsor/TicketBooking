@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.mart.booking.dao.LevelDao;
+import com.mart.booking.dao.LevelDAO;
 import com.mart.booking.data.LevelResponse;
 import com.mart.booking.domain.Level;
 
@@ -13,14 +13,14 @@ import com.mart.booking.domain.Level;
 public class LevelServiceImpl implements LevelService{
 	
 	@Autowired
-	LevelDao levelDao;
+	LevelDAO levelDAO;
 	
 	@Override
 	public LevelResponse getLevels() {
 		
 		LevelResponse levelResponse=new LevelResponse();
 		
-		List<Level> levels=levelDao.list();
+		List<Level> levels=levelDAO.list();
 		
 		levelResponse.setLevels(levels);
 		

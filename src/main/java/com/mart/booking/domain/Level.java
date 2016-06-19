@@ -7,55 +7,77 @@ import javax.persistence.Id;
 public class Level {
 	
 	@Id
-	private int levelId;
+	private Integer levelId;
 	
 	private String levelName;
 	
-	private double price;
+	private Double price;
 	
-	private long noOfRows;
+	private Long noOfRows;
 	
-	private long seatsInRow;
+	private Long seatsInRow;
 
-	public int getLevelId() {
+	
+
+	public Integer getLevelId() {
 		return levelId;
 	}
 
-	public void setLevelId(int levelId) {
+
+
+	public void setLevelId(Integer levelId) {
 		this.levelId = levelId;
 	}
+
+
 
 	public String getLevelName() {
 		return levelName;
 	}
 
+
+
 	public void setLevelName(String levelName) {
 		this.levelName = levelName;
 	}
 
-	public double getPrice() {
+
+
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+
+
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
-	public long getNoOfRows() {
+
+
+	public Long getNoOfRows() {
 		return noOfRows;
 	}
 
-	public void setNoOfRows(long noOfRows) {
+
+
+	public void setNoOfRows(Long noOfRows) {
 		this.noOfRows = noOfRows;
 	}
 
-	public long getSeatsInRow() {
+
+
+	public Long getSeatsInRow() {
 		return seatsInRow;
 	}
 
-	public void setSeatsInRow(long seatsInRow) {
+
+
+	public void setSeatsInRow(Long seatsInRow) {
 		this.seatsInRow = seatsInRow;
 	}
+
+
 
 	@Override
 	public String toString() {

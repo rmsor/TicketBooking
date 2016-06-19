@@ -1,6 +1,5 @@
 package com.mart.booking.domain;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -14,16 +13,16 @@ public class BookingDetails {
 	@Id
 	private int bookingDetailsId;
 	
-	@Column(name = "levelId")
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "BookingDetails")
+	@OneToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name="level", referencedColumnName="levelId")
 	private Level level;
 	
 	private Integer bookedSeats;
 	
 	private Double totalPrice;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "bookingId", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "bookingId")
 	private SeatHold seatHold;
 
 	public int getBookingDetailsId() {

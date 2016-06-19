@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.mart.booking.domain.Level;
 
-public interface LevelDao {
+public interface LevelDAO {
 	
 	 /**
 	  * returs list of all levels of seats in venue
