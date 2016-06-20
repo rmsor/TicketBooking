@@ -39,6 +39,9 @@ public class SeatHold implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date reservedDate;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date expiredDate;
+	
 	private Double grandTotal;
 	
 	@Enumerated(EnumType.STRING)
@@ -76,6 +79,14 @@ public class SeatHold implements Serializable{
 
 	public void setReservedDate(Date reservedDate) {
 		this.reservedDate = reservedDate;
+	}
+
+	public Date getExpiredDate() {
+		return expiredDate;
+	}
+
+	public void setExpiredDate(Date expiredDate) {
+		this.expiredDate = expiredDate;
 	}
 
 	public Double getGrandTotal() {

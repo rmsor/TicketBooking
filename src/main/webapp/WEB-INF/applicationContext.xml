@@ -29,11 +29,11 @@
 	</bean>
 	
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
-	    <property name="driverClassName" value="org.apache.derby.jdbc.ClientDriver"/>
-	    <property name="url" value="jdbc:derby://localhost:1527/ticket;create=true"/>
-	    <property name="username" value="testDerby"/>
-	    <property name="password" value="testDerby"/>
-	    <property name="initialSize" value="2"/>
+	    <property name="driverClassName" value="#{commonProperties['db.driverClassName']}"/>
+	    <property name="url" value="#{commonProperties['db.url']}"/>
+	    <property name="username" value="#{commonProperties['db.username']}"/>
+	    <property name="password" value="#{commonProperties['db.password']}"/>
+	    <property name="initialSize" value="#{commonProperties['db.pool.initialSize']}"/>
 	</bean>
 
 	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -41,10 +41,10 @@
 		<property name="packagesToScan" value="com.mart.booking.entity" />	
 		<property name="hibernateProperties">
 			<props>
-				<prop key="hibernate.dialect">org.hibernate.dialect.DerbyDialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>  
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.hbm2ddl.import_files">import.sql</prop>
+				<prop key="hibernate.dialect">#{commonProperties['hibernate.dialect']}</prop>
+				<prop key="hibernate.hbm2ddl.auto">#{commonProperties['hibernate.hbm2ddl.auto']}</prop>  
+                <prop key="hibernate.show_sql">#{commonProperties['hibernate.show_sql']}</prop>
+                <prop key="hibernate.hbm2ddl.import_files">#{commonProperties['hibernate.hbm2ddl.import_files']}</prop>
 			</props>
 		</property>	
 	</bean>

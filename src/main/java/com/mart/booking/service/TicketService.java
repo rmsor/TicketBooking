@@ -2,10 +2,10 @@ package com.mart.booking.service;
 
 import java.util.Optional;
 
-import com.mart.booking.data.AvailableResponse;
 import com.mart.booking.entity.SeatHold;
 
 public interface TicketService {
+	
 	/**
 	* The number of seats in the requested level that are neither held nor reserved
 	*
@@ -13,6 +13,7 @@ public interface TicketService {
 	* @return the number of tickets available on the provided level
 	*/
 	 int numSeatsAvailable(Optional<Integer> venueLevel);
+	
 	/**
 	* Find and hold the best available seats for a customer
 	*
@@ -20,21 +21,30 @@ public interface TicketService {
 	* @param minLevel the minimum venue level
 	* @param maxLevel the maximum venue level
 	* @param customerEmail unique identifier for the customer
-	* @return a SeatHold object identifying the specific seats and related
-	information
+	* @return a SeatHold object identifying the specific seats and related	information
 	*/
-	 SeatHold findAndHoldSeats(int numSeats, Optional<Integer> minLevel,
-	Optional<Integer> maxLevel, String customerEmail);
+	 SeatHold findAndHoldSeats(int numSeats, Optional<Integer> minLevel, Optional<Integer> maxLevel, String customerEmail);
+	
 	/**
 	* Commit seats held for a specific customer
 	*
 	* @param seatHoldId the seat hold identifier
-	* @param customerEmail the email address of the customer to which the seat hold
-	is assigned
+	* @param customerEmail the email address of the customer to which the seat hold	is assigned
 	* @return a reservation confirmation code
 	*/
 	String reserveSeats(int seatHoldId, String customerEmail);
 	
-	
+	/**
+	 * Commit seats held for a specific customer
+	 * @param seatHoldId the seat hold identifier
+	 * @param customerEmail the email address of the customer to which the seat hold
+	 * @return SeatHold object identifying the specific seats and related information
+	 */
 	SeatHold makeReservation(Integer seatHoldId, String customerEmail);
+	
+	/**
+	 * updates SeatHold object to expire and persist
+	 * @param booking SeatHold object
+	 */
+	void expireReservation(SeatHold booking);
 }

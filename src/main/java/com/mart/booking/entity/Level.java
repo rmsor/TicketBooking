@@ -87,6 +87,35 @@ public class Level  implements Serializable{
 	public void setSeatsInRow(Integer seatsInRow) {
 		this.seatsInRow = seatsInRow;
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((levelId == null) ? 0 : levelId.hashCode());
+		return result;
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Level other = (Level) obj;
+		if (levelId == null) {
+			if (other.levelId != null)
+				return false;
+		} else if (!levelId.equals(other.levelId))
+			return false;
+		return true;
+	}
 
 
 
