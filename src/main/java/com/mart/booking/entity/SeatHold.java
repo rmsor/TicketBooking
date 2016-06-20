@@ -22,6 +22,11 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+/**
+ * entity class for SEATHOLD table
+ * @author rpathak
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Entity
 public class SeatHold implements Serializable{

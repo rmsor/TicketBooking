@@ -9,7 +9,11 @@ import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-
+/**
+ * entity class for LEVEL table
+ * @author rpathak
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Entity
 public class Level  implements Serializable{

@@ -1,5 +1,10 @@
 package com.mart.booking.constants;
 
+/**
+ * constant class
+ * @author rpathak
+ *
+ */
 public final class BookingServiceConstants {
 	
 	public static final String GENERIC_ERROR="SERVER_ERROR";

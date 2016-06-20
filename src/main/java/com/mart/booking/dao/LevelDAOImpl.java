@@ -10,6 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.mart.booking.entity.Level;
 
+/**
+ * repository for Levels
+ * @author rpathak
+ *
+ */
 @Repository
 @Transactional
 public class LevelDAOImpl implements LevelDAO {
@@ -17,6 +22,10 @@ public class LevelDAOImpl implements LevelDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	 /**
+	  * returs list of all levels of seats in venue
+	  * @return List<Level>
+	  */
 	@Override	
 	public List<Level> list() {
 		@SuppressWarnings("unchecked")
@@ -26,6 +35,11 @@ public class LevelDAOImpl implements LevelDAO {
 		return listUser;
 	}
 	
+	/**
+	  * 
+	  * @param id
+	  * @return Level
+	  */
 	@Override
 	public Level getById(Integer id){
 		 Level level =  (Level)sessionFactory.getCurrentSession().get(Level.class, id);

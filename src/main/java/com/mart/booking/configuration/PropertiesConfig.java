@@ -5,6 +5,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
+/**
+ * bean configuration for properties
+ * @author rpathak
+ *
+ */
 @Configuration
 public class PropertiesConfig {
 	
@@ -12,7 +17,10 @@ public class PropertiesConfig {
 		
 	private static final String COMMON_PROPERTIES="properties/common.properties";
 	
-	
+	/**
+	 * sqlProperties
+	 * @return sqlProperties Bean
+	 */
 	@Bean
 	public PropertiesFactoryBean sqlProperties(){
 		
@@ -23,6 +31,9 @@ public class PropertiesConfig {
 		return factoryBean;
 	}
 	
+	/**
+	 * @return commonProperties Bean
+	 */
 	@Bean
 	public PropertiesFactoryBean commonProperties(){
 		

@@ -11,6 +11,11 @@ import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * entity class for CUSTOMER table
+ * @author rpathak
+ *
+ */
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "EMAIL") })
 @JsonInclude(JsonInclude.Include.NON_EMPTY)

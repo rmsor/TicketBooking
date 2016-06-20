@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Base ErrorException class
+ * @author rpathak
+ *
+ */
 public class BaseErrorException extends Exception {
 
     private static final long serialVersionUID = 5330649850834445137L;

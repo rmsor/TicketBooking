@@ -27,6 +27,11 @@ import com.mart.booking.param.ReserveParams;
 import com.mart.booking.service.LevelService;
 import com.mart.booking.service.TicketService;
 
+/**
+ * rest controller for booking rest API endpoints
+ * @author rpathak
+ *
+ */
 @RestController()
 @RequestMapping(value = "/rest/booking")
 public class TicketResource {
@@ -38,7 +43,12 @@ public class TicketResource {
 
 	@Autowired
 	LevelService levelService;
-
+	
+	/**
+	 * Get available seats by optional param level
+	 * @param level optional
+	 * @return ResponseEntity<AvailableResponse>
+	 */
 	@RequestMapping(value = "/seatsavailable/v1_0", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvailableResponse> numSeatsAvailable(
 			@RequestParam(value = "level", required = false) Integer level) {
@@ -66,7 +76,15 @@ public class TicketResource {
 
 		return new ResponseEntity<AvailableResponse>(availableResponse, HttpStatus.OK);
 	}
-
+	
+	/**
+	 * POST add booking
+	 * @param bookingParams
+	 * @param bindingResult
+	 * @return ResponseEntity<SeatHold>
+	 * @throws BadRequestException
+	 * @throws ServerErrorException
+	 */
 	@RequestMapping(value = "/add/v1_0", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SeatHold> holdSeat(@Valid @RequestBody BookingParams bookingParams,
 			BindingResult bindingResult) throws BadRequestException, ServerErrorException {
@@ -78,20 +96,28 @@ public class TicketResource {
 			logger.debug("Bad Requst for Add Booking: " + bindingResult.getFieldErrors());
 			throw new BadRequestException(bindingResult);
 		}
-		// try {
-		seatHold = ticketService.findAndHoldSeats(bookingParams.getNumSeats(),
+		try {
+			seatHold = ticketService.findAndHoldSeats(bookingParams.getNumSeats(),
 				Optional.ofNullable(bookingParams.getMinLevel()), Optional.ofNullable(bookingParams.getMaxLevel()),
 				bookingParams.getCustomerEmail());
-		// } catch (Exception ex) {
-		// throw new ServerErrorException(ex.getMessage());
-		// }
+		} catch (Exception ex) {
+			throw new ServerErrorException(ex.getMessage());
+		}
 
 		logger.info("method holdseat completed. Execution Time (milliseconds): "
 				+ (System.currentTimeMillis() - startTime));
 
 		return new ResponseEntity<SeatHold>(seatHold, HttpStatus.OK);
 	}
-
+	
+	/**
+	 * PUT reserve existing booking
+	 * @param reserveParams
+	 * @param bindingResult
+	 * @return  ResponseEntity<SeatHold>
+	 * @throws BadRequestException
+	 * @throws ServerErrorException
+	 */
 	@RequestMapping(value = "/reserve/v1_0", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SeatHold> reserveBooking(@Valid @RequestBody ReserveParams reserveParams,
 			BindingResult bindingResult) throws BadRequestException, ServerErrorException {
@@ -103,11 +129,11 @@ public class TicketResource {
 			logger.debug("Bad Requst for reserveBooking : " + bindingResult.getFieldErrors());
 			throw new BadRequestException(bindingResult);
 		}
-		// try {
-		seatHold = ticketService.makeReservation(reserveParams.getSeatHoldId(), reserveParams.getCustomerEmail());
-		// } catch (Exception ex) {
-		// throw new ServerErrorException(ex.getMessage());
-		// }
+		 try {
+			 seatHold = ticketService.makeReservation(reserveParams.getSeatHoldId(), reserveParams.getCustomerEmail());
+		 } catch (Exception ex) {
+			 throw new ServerErrorException(ex.getMessage());
+		 }
 
 		logger.info("method reserveBooking completed. Execution Time (milliseconds): "
 				+ (System.currentTimeMillis() - startTime));

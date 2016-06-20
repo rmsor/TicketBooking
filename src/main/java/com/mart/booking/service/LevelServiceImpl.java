@@ -9,12 +9,21 @@ import com.mart.booking.dao.LevelDAO;
 import com.mart.booking.data.LevelResponse;
 import com.mart.booking.entity.Level;
 
+/**
+ * level service
+ * @author rpathak
+ *
+ */
 @Service
 public class LevelServiceImpl implements LevelService{
 	
 	@Autowired
 	LevelDAO levelDAO;
 	
+	/**
+	 * get all levels
+	 * @return LevelResponse
+	 */
 	@Override
 	public LevelResponse getLevels() {
 		
@@ -26,7 +35,12 @@ public class LevelServiceImpl implements LevelService{
 		
 		return levelResponse;
 	}
-
+	
+	/**
+	 * get level by levelId
+	 * @param id
+	 * @return Level object
+	 */
 	@Override
 	public Level getById(Integer id) {
 		return levelDAO.getById(id);

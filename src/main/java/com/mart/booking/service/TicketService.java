@@ -42,9 +42,4 @@ public interface TicketService {
 	 */
 	SeatHold makeReservation(Integer seatHoldId, String customerEmail);
 	
-	/**
-	 * updates SeatHold object to expire and persist
-	 * @param booking SeatHold object
-	 */
-	void expireReservation(SeatHold booking);
 }

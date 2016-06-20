@@ -8,7 +8,7 @@ import com.mart.booking.constants.BookingServiceConstants;
 
 /**
  * Exception representing an internal server error
- *  
+ *  @author rpathak
  */
 @XmlRootElement
 public class ServerErrorException extends BaseErrorException {

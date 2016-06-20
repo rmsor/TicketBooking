@@ -15,6 +15,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mart.booking.constants.BookingServiceConstants;
 
+/**
+ * exception class to handle bad request json params
+ * @author rpathak
+ *
+ */
 @XmlRootElement
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BadRequestException extends BindException {
@@ -29,7 +34,12 @@ public class BadRequestException extends BindException {
 
 		generateErrors(errors, bindingResult);
 	}
-
+	
+	/**
+	 * set all errors 
+	 * @param errorList List<Error>
+	 * @param result BindingResult
+	 */
 	private void generateErrors(List<Error> errorList, BindingResult result) {
 		// error pattern for field errors
 		Pattern pattern = Pattern.compile(BookingServiceConstants.ERROR_FIELD_REGEX_PATTERN);

@@ -7,6 +7,11 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mart.booking.entity.Level;
 
+/**
+ * response class for level
+ * @author rpathak
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LevelResponse extends BaseResponse implements Serializable{
 	
@@ -15,11 +20,19 @@ public class LevelResponse extends BaseResponse implements Serializable{
 	@JsonProperty("levels")
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private List<Level> levels;
-
+	
+	/**
+	 * 
+	 * @return levels
+	 */
 	public List<Level> getLevels() {
 		return levels;
 	}
-
+	
+	/**
+	 * 
+	 * @param levels
+	 */
 	public void setLevels(List<Level> levels) {
 		this.levels = levels;
 	}

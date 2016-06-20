@@ -7,6 +7,11 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * param class to hold reservation json request and validate
+ * @author rpathak
+ *
+ */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReserveParams implements Serializable{
 	

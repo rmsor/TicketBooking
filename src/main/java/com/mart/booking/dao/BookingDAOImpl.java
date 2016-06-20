@@ -17,6 +17,11 @@ import com.mart.booking.entity.BookingType;
 import com.mart.booking.entity.Customer;
 import com.mart.booking.entity.SeatHold;
 
+/**
+ * repository for booking functions
+ * @author rpathak
+ *
+ */
 @Repository
 @Transactional
 public class BookingDAOImpl implements BookingDAO{
@@ -30,7 +35,10 @@ public class BookingDAOImpl implements BookingDAO{
 	@Value("#{sqlProperties['list.booking.availableSeats']}")
 	private String availableSeats;
 	
-	
+	/**
+	  * list all bookings 
+	  * @return List<SeatHold> objects
+	  */
 	@Override	
 	public List<SeatHold> list() {
 		@SuppressWarnings("unchecked")
@@ -40,6 +48,10 @@ public class BookingDAOImpl implements BookingDAO{
 		return bookings;
 	}
 	
+	/**
+	  * list all booked and reserved bookings that are not expired 
+	  * @return List<SeatHold> object
+	  */
 	@Override
 	public List<SeatHold> listActiveBooking(){
 		Query query = sessionFactory.getCurrentSession().createSQLQuery(notExpiredBookingSql);
@@ -49,22 +61,40 @@ public class BookingDAOImpl implements BookingDAO{
 		return bookingList;
 	}
 
+	/**
+	  * adds new booking 
+	  * @param booking SeatHold object
+	  * @return bookingId
+	  */
 	@Override
 	public Integer add(SeatHold booking) {
 		return (Integer)sessionFactory.getCurrentSession().save(booking);
 	}
 	
+	/**
+	  * search booking by ID
+	  * @param id
+	  * @return SeatHold Object
+	  */
 	@Override
 	public SeatHold getById(Integer id){
 		SeatHold booking =  (SeatHold)sessionFactory.getCurrentSession().get(SeatHold.class, id);
 		return booking;
 	}
-
+	
+	/**
+	  * updates booking 
+	  * @param booking object
+	  */
 	@Override
 	public void update(SeatHold booking) {
 		sessionFactory.getCurrentSession().update(booking);		
 	}
-
+	
+	 /**
+	  * return map of seatsBooked by level
+	  * @return Map<Integer,Integer> bookedSeats
+	  */
 	@Override
 	@SuppressWarnings("rawtypes")
 	public Map<Integer, Integer> getSeatsBooked() {

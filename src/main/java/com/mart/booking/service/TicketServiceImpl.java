@@ -26,6 +26,11 @@ import com.mart.booking.entity.Customer;
 import com.mart.booking.entity.Level;
 import com.mart.booking.entity.SeatHold;
 
+/**
+ * booking service
+ * @author rpathak
+ *
+ */
 @Service
 public class TicketServiceImpl implements TicketService {
 
@@ -48,9 +53,12 @@ public class TicketServiceImpl implements TicketService {
 		levels = levelDAO.list();
 	}
 
-	/**
-	 * 
-	 */
+	
+	/** returns total number of sets available 
+	*
+	* @param venueLevel a numeric venue level identifier to limit the search
+	* @return the number of tickets available on the provided level
+	*/
 	@Override
 	public int numSeatsAvailable(Optional<Integer> venueLevel) {
 		Map<Integer, Integer> seatsAvailable = getSeatsAvailable();
@@ -66,8 +74,14 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	/**
-	 * 
-	 */
+	* Find and hold the best available seats for a customer
+	*
+	* @param numSeats the number of seats to find and hold
+	* @param minLevel the minimum venue level
+	* @param maxLevel the maximum venue level
+	* @param customerEmail unique identifier for the customer
+	* @return a SeatHold object identifying the specific seats and related	information
+	*/
 	@Override
 	public SeatHold findAndHoldSeats(int numSeats, Optional<Integer> minLevel, Optional<Integer> maxLevel,
 			String customerEmail) {
@@ -107,8 +121,12 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	/**
-	 * 
-	 */
+	* Commit seats held for a specific customer
+	*
+	* @param seatHoldId the seat hold identifier
+	* @param customerEmail the email address of the customer to which the seat hold	is assigned
+	* @return a reservation confirmation code
+	*/
 	@Override
 	public String reserveSeats(int seatHoldId, String customerEmail) {
 
@@ -122,8 +140,12 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	/**
-	 * 
-	 */
+	* Commit seats held for a specific customer
+	*
+	* @param seatHoldId the seat hold identifier
+	* @param customerEmail the email address of the customer to which the seat hold	is assigned
+	* @return a SeatHold object with all the booking information
+	*/
 	@Override
 	public SeatHold makeReservation(Integer seatHoldId, String customerEmail) {
 
@@ -139,8 +161,8 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * no. of seats available by each level
+	 * @return Map<Integer, Integer> 
 	 */
 	private synchronized Map<Integer, Integer> getSeatsAvailable() {
 		Map<Integer, Integer> seatsBooked = bookingDAO.getSeatsBooked();
@@ -157,11 +179,12 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	/**
+	 * return booking object based on customer selection
 	 * 
-	 * @param numSeats
-	 * @param minLevel
-	 * @param maxLevel
-	 * @param customer
+	 * @param numSeats the number of seats to find and hold
+	 * @param minLevel the minimum venue level
+	 * @param maxLevel the maximum venue level
+	 * @param customer Customer object
 	 * @return
 	 */
 	private synchronized SeatHold getAvailableBooking(int numSeats, int minLevel, int maxLevel, Customer customer) {
@@ -208,12 +231,14 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	/**
+	 * gets seats from levels one by one based on user selection. 
+	 * First checks minimum level and then booking total available seats and so on till maxLevel is reached
 	 * 
-	 * @param seatsAvailable
-	 * @param minLevel
-	 * @param maxLevel
-	 * @param numSeats
-	 * @return
+	 * @param seatsAvailable total available seats by level
+	 * @param minLevel the minimum venue level
+	 * @param maxLevel the maximum venue level
+	 * @param numSeats Seats to be booked
+	 * @return Map<Integer, Integer> totalSeats to be booked by each level
 	 */
 	private Map<Integer, Integer> recommendSeatsByLevel(Map<Integer, Integer> seatsAvailable, int minLevel,
 			int maxLevel, int numSeats) {
@@ -254,9 +279,9 @@ public class TicketServiceImpl implements TicketService {
 	}
 
 	/**
-	 * 
+	 * find level by Id from collection
 	 * @param levelId
-	 * @return
+	 * @return Level
 	 */
 	private Level findById(int levelId) {
 		for (Level level : levels) {
@@ -266,24 +291,41 @@ public class TicketServiceImpl implements TicketService {
 		}
 		return null;
 	}
-
-	@Override
-	public void expireReservation(SeatHold booking) {
+	
+	/**
+	 * updates SeatHold object to expire and persist after specifed time
+	 * 
+	 * @param booking SeatHold object
+	 */
+	private void expireReservation(SeatHold booking) {
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.SECOND, timeToExpireBooking);
 		Timer timer = new Timer();
 		timer.schedule(new ExpireReservation(booking), c.getTime());
 
 	}
-
+	
+	/**
+	 * Timer Class which does the task to expire Booking
+	 * 
+	 * @author rpathak
+	 *
+	 */
 	class ExpireReservation extends TimerTask {
 
 		private SeatHold booking;
-
+		
+		/**
+		 * 
+		 * @param booking
+		 */
 		public ExpireReservation(SeatHold booking) {
 			this.booking = booking;
 		}
-
+		
+		/**
+		 * do the update task
+		 */
 		public void run() {
 			booking.setExpiredDate(new Date());
 			booking.setBookingType(BookingType.EXPIRED);

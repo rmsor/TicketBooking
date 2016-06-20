@@ -15,6 +15,11 @@ import com.mart.booking.data.BaseResponse;
 import com.mart.booking.data.LevelResponse;
 import com.mart.booking.service.LevelService;
 
+/**
+ * rest controller for level rest API endpoints
+ * @author rpathak
+ *
+ */
 @RestController()
 @RequestMapping(value="/rest/level")
 public class LevelResource extends BaseResponse implements Serializable{
@@ -26,6 +31,10 @@ public class LevelResource extends BaseResponse implements Serializable{
 	@Autowired
 	LevelService levelService;
 	
+	/**
+	 * Get: list of levels
+	 * @return ResponseEntity<LevelResponse>
+	 */
 	@RequestMapping(value="/list/v1_0",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<LevelResponse> getAllLevels(){
 		LevelResponse levelResponse=levelService.getLevels();

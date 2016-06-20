@@ -16,6 +16,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+/**
+ * entity class for BOOKINGDETAILS table
+ * @author rpathak
+ *
+ */
 @Entity
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class BookingDetails implements Serializable{
