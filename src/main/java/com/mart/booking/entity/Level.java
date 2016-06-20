@@ -1,21 +1,32 @@
-package com.mart.booking.domain;
+package com.mart.booking.entity;
+
+import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Entity
-public class Level {
+public class Level  implements Serializable{
 	
+	private static final long serialVersionUID = 6535186084316245979L;
+
 	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer levelId;
 	
 	private String levelName;
 	
 	private Double price;
 	
-	private Long noOfRows;
+	private Integer noOfRows;
 	
-	private Long seatsInRow;
+	private Integer seatsInRow;
 
 	
 
@@ -55,25 +66,25 @@ public class Level {
 
 
 
-	public Long getNoOfRows() {
+	public Integer getNoOfRows() {
 		return noOfRows;
 	}
 
 
 
-	public void setNoOfRows(Long noOfRows) {
+	public void setNoOfRows(Integer noOfRows) {
 		this.noOfRows = noOfRows;
 	}
 
 
 
-	public Long getSeatsInRow() {
+	public Integer getSeatsInRow() {
 		return seatsInRow;
 	}
 
 
 
-	public void setSeatsInRow(Long seatsInRow) {
+	public void setSeatsInRow(Integer seatsInRow) {
 		this.seatsInRow = seatsInRow;
 	}
 

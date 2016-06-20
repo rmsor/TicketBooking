@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mart.booking.dao.LevelDAO;
 import com.mart.booking.data.LevelResponse;
-import com.mart.booking.domain.Level;
+import com.mart.booking.entity.Level;
 
 @Service
 public class LevelServiceImpl implements LevelService{
@@ -25,6 +25,11 @@ public class LevelServiceImpl implements LevelService{
 		levelResponse.setLevels(levels);
 		
 		return levelResponse;
+	}
+
+	@Override
+	public Level getById(Integer id) {
+		return levelDAO.getById(id);
 	}
 
 }

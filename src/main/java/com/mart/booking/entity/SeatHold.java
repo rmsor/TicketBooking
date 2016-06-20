@@ -1,5 +1,6 @@
-package com.mart.booking.domain;
+package com.mart.booking.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -16,11 +19,20 @@ import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 @Entity
-public class SeatHold {
+public class SeatHold implements Serializable{
 	
+
+	private static final long serialVersionUID = 8877036553392476761L;
+
 	@Id
-	private Long bookingId;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Integer bookingId;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date bookedDate;
@@ -30,21 +42,24 @@ public class SeatHold {
 	
 	private Double grandTotal;
 	
-	@Enumerated(EnumType.ORDINAL)
+	@Enumerated(EnumType.STRING)
 	private BookingType bookingType;
 
 	@OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="customer", referencedColumnName="customerId")
 	private Customer customer;
 	
-	@OneToMany(mappedBy = "seatHold",cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER,mappedBy = "seatHold",cascade=CascadeType.ALL)
+	@JsonManagedReference
 	private Set<BookingDetails> bookingDetails=new HashSet<BookingDetails>(0);
+	
+	private String reservationCode;
 
-	public Long getBookingId() {
+	public Integer getBookingId() {
 		return bookingId;
 	}
 
-	public void setBookingId(Long bookingId) {
+	public void setBookingId(Integer bookingId) {
 		this.bookingId = bookingId;
 	}
 
@@ -94,9 +109,14 @@ public class SeatHold {
 
 	public void setBookingDetails(Set<BookingDetails> bookingDetails) {
 		this.bookingDetails = bookingDetails;
-	};
+	}
 
-	
-	
+	public String getReservationCode() {
+		return reservationCode;
+	}
+
+	public void setReservationCode(String reservationCode) {
+		this.reservationCode = reservationCode;
+	};	
 	
 }

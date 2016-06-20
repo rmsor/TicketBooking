@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mart.booking.domain.Level;
+import com.mart.booking.entity.Level;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class LevelResponse extends BaseResponse implements Serializable{

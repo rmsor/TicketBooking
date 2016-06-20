@@ -1,17 +1,31 @@
-package com.mart.booking.domain;
+package com.mart.booking.entity;
 
+import java.io.Serializable;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
-public class BookingDetails {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class BookingDetails implements Serializable{
 	
+	private static final long serialVersionUID = 7292342103855640431L;
+
 	@Id
-	private int bookingDetailsId;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@JsonIgnore
+	private Integer bookingDetailsId;
 	
 	@OneToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="level", referencedColumnName="levelId")
@@ -21,15 +35,16 @@ public class BookingDetails {
 	
 	private Double totalPrice;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "bookingId")
+	@JsonBackReference
 	private SeatHold seatHold;
 
-	public int getBookingDetailsId() {
+	public Integer getBookingDetailsId() {
 		return bookingDetailsId;
 	}
 
-	public void setBookingDetailsId(int bookingDetailsId) {
+	public void setBookingDetailsId(Integer bookingDetailsId) {
 		this.bookingDetailsId = bookingDetailsId;
 	}
 

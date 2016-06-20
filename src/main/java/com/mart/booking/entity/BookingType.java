@@ -1,4 +1,4 @@
-package com.mart.booking.domain;
+package com.mart.booking.entity;
 
 public enum BookingType {
 	

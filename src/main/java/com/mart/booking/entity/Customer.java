@@ -1,16 +1,26 @@
-package com.mart.booking.domain;
+package com.mart.booking.entity;
+
+import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "EMAIL") })
-public class Customer {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class Customer implements Serializable{
 	
+	private static final long serialVersionUID = -1131169512745672238L;
+
 	@Id
-	private long customerId;
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long customerId;
 	
 	private String email;
 	
@@ -18,11 +28,11 @@ public class Customer {
 	
 	private String address;
 
-	public long getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(long customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
 
