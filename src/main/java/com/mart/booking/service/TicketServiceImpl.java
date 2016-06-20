@@ -58,6 +58,7 @@ public class TicketServiceImpl implements TicketService {
 
 		Level mLevel = null;
 		Level mxLevel = null;
+		
 		if (minLevel.isPresent()) {
 			mLevel = levelDAO.getById(minLevel.get());
 		}
@@ -72,40 +73,14 @@ public class TicketServiceImpl implements TicketService {
 			customerDAO.add(customer);
 		}
 		
+		SeatHold booking=getAvailableBooking(numSeats,mLevel,mxLevel,customer);
 		
-		
-		SeatHold booking = new SeatHold();
-		booking.setBookingType(BookingType.BOOKED);
-		booking.setBookedDate(new Date());
-		booking.setCustomer(customer);
-		
-		
-		List<Level> levels=levelDAO.list();
-		
-		Set<BookingDetails> bookingDetails=new HashSet<BookingDetails>();
-		BookingDetails bookingDetail1=new BookingDetails();
-		bookingDetail1.setBookedSeats(10);
-		bookingDetail1.setLevel(levels.get(0));
-		bookingDetail1.setSeatHold(booking);
-		bookingDetail1.setTotalPrice(levels.get(0).getPrice()*10);
-		bookingDetails.add(bookingDetail1);
-		
-		BookingDetails bookingDetail2=new BookingDetails();
-		bookingDetail2.setBookedSeats(5);
-		bookingDetail2.setLevel(levels.get(1));
-		bookingDetail2.setSeatHold(booking);
-		bookingDetail2.setTotalPrice(levels.get(1).getPrice()*5);
-		bookingDetails.add(bookingDetail2);
-		
-		booking.setGrandTotal(bookingDetail1.getTotalPrice()+bookingDetail2.getTotalPrice());
-		
-		booking.setBookingDetails(bookingDetails);
-		
-		if (bookingDAO.add(booking) > 0) {
-			return booking;
-		} else {
-			return null;
+		if(booking!=null){
+			if (bookingDAO.add(booking) > 0) {
+				return booking;
+			}
 		}
+		return null;
 	}
 	
 	/**
@@ -144,7 +119,7 @@ public class TicketServiceImpl implements TicketService {
 	 * 
 	 * @return
 	 */
-	private Map<Integer,Integer> getSeatsAvailable(){
+	private synchronized Map<Integer,Integer> getSeatsAvailable(){
 		Map<Integer,Integer> seatsBooked=bookingDAO.getSeatsBooked();		
 		Map<Integer,Integer> availableSeats=new HashMap<Integer,Integer>();		
 		List<Level> levels=levelDAO.list();		
@@ -157,6 +132,56 @@ public class TicketServiceImpl implements TicketService {
 			availableSeats.put(level.getLevelId(),(totalSeatsInRow-bookedSeats));
 		}		
 		return availableSeats;
+	}
+	
+	private synchronized SeatHold getAvailableBooking(int numSeats, Level minLevel, Level maxLevel, Customer customer){
+			
+		Map<Integer,Integer> seatsAvailable=getSeatsAvailable();
+		
+		int totalSeats=0;	
+		for(Integer availSeats:seatsAvailable.values()){
+			totalSeats+=availSeats;
+		}	
+		
+		if(numSeats<1 || totalSeats<numSeats){
+			return null;
+		}
+		
+		SeatHold booking = new SeatHold();
+		Set<BookingDetails> bookingDetails=new HashSet<BookingDetails>();
+		List<Level> levels=levelDAO.list();		
+		
+		booking.setBookingType(BookingType.BOOKED);
+		booking.setBookedDate(new Date());
+		booking.setCustomer(customer);
+		
+		
+		int bookedSeats=0;
+		double totalPrice=0;
+		for(Level lvl:levels){
+			if(seatsAvailable.containsKey(lvl.getLevelId())){
+				
+				int levelSeats=seatsAvailable.get(lvl.getLevelId());
+				
+				if(minLevel!=null && maxLevel!=null){
+					
+				}
+				if(bookedSeats!=numSeats){
+					
+				}
+				
+				BookingDetails bookingDetail1=new BookingDetails();
+				bookingDetail1.setBookedSeats(10);
+				bookingDetail1.setLevel(levels.get(0));
+				bookingDetail1.setSeatHold(booking);
+				bookingDetail1.setTotalPrice(levels.get(0).getPrice()*10);
+				bookingDetails.add(bookingDetail1);
+			}
+		}		
+		booking.setGrandTotal(totalPrice);	
+		booking.setBookingDetails(bookingDetails);
+		
+		return booking;
 	}
 
 }
