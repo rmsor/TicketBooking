@@ -19,5 +19,5 @@ public interface CustomerService {
 	 * @param customer
 	 * @return List<SeatHold> bookings
 	 */
-	List<SeatHold> getBookingByEmail(Customer customer);
+	List<SeatHold> getBookingByCustomer(Customer customer);
 }

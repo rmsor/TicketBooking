@@ -70,7 +70,7 @@ public class BookingDAOImpl implements BookingDAO{
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<SeatHold> getBookingByEmail(Customer customer) {
+	public List<SeatHold> getBookingByCustomer(Customer customer) {
 		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SeatHold.class);
 	    criteria.add(Restrictions.eq("customer", customer));
 		return (List<SeatHold>)criteria.list();

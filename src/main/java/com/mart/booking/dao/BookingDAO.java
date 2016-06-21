@@ -53,5 +53,5 @@ public interface BookingDAO {
 	  * @param Customer customer object
 	  * @return List<SeatHold> objects
 	  */
-	 List<SeatHold> getBookingByEmail(Customer customer);
+	 List<SeatHold> getBookingByCustomer(Customer customer);
 }

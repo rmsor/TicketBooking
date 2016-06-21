@@ -24,6 +24,7 @@ import com.mart.booking.entity.Customer;
 import com.mart.booking.entity.Level;
 import com.mart.booking.entity.SeatHold;
 import com.mart.booking.exception.BadRequestException;
+import com.mart.booking.exception.BookingException;
 import com.mart.booking.exception.Error;
 import com.mart.booking.exception.ServerErrorException;
 import com.mart.booking.param.BookingParams;
@@ -41,7 +42,7 @@ import com.mart.booking.service.TicketService;
 @RequestMapping(value = "/rest/booking")
 public class TicketResource {
 
-	private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
+	private final static Logger logger = LoggerFactory.getLogger(TicketResource.class);
 
 	@Autowired
 	TicketService ticketService;
@@ -56,12 +57,13 @@ public class TicketResource {
 	 * Get available seats by optional param level
 	 * @param level optional
 	 * @return ResponseEntity<AvailableResponse>
+	 * @throws BadRequestException 
 	 */
 	@RequestMapping(value = "/seatsavailable/v1_0", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AvailableResponse> numSeatsAvailable(
-			@RequestParam(value = "level", required = false) Integer level) {
+			@RequestParam(value = "level", required = false) Integer level){
 		Long startTime = System.currentTimeMillis();
-
+		
 		AvailableResponse availableResponse = new AvailableResponse();
 
 		Optional<Integer> levelOpt = Optional.empty();
@@ -108,7 +110,7 @@ public class TicketResource {
 			seatHold = ticketService.findAndHoldSeats(bookingParams.getNumSeats(),
 				Optional.ofNullable(bookingParams.getMinLevel()), Optional.ofNullable(bookingParams.getMaxLevel()),
 				bookingParams.getCustomerEmail());
-		} catch (Exception ex) {
+		} catch (BookingException ex) {
 			throw new ServerErrorException(ex.getMessage());
 		}
 
@@ -139,7 +141,7 @@ public class TicketResource {
 		}
 		 try {
 			 seatHold = ticketService.makeReservation(reserveParams.getSeatHoldId(), reserveParams.getCustomerEmail());
-		 } catch (Exception ex) {
+		 } catch (BookingException ex) {
 			 throw new ServerErrorException(ex.getMessage());
 		 }
 
@@ -164,7 +166,7 @@ public class TicketResource {
 		
 		
 		if(customer!=null){
-			List<SeatHold> bookings= customerService.getBookingByEmail(customer);
+			List<SeatHold> bookings= customerService.getBookingByCustomer(customer);
 			bookingResponse.setBookings(bookings);
 		}else{
 			bookingResponse.addError(new Error("No Customer assosicated with that email Found!!"));

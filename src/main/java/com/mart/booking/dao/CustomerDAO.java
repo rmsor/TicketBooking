@@ -31,5 +31,5 @@ public interface CustomerDAO {
 	 * @param Customer object
 	 * @return customerId
 	 */
-	Long add(Customer cust);
+	Integer add(Customer cust);
 }

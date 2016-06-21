@@ -42,8 +42,8 @@ public class CustomerServiceImpl implements CustomerService {
 	 * @return List<SeatHold> bookings
 	 */
 	@Override
-	public List<SeatHold> getBookingByEmail(Customer customer){
-		return bookingDAO.getBookingByEmail(customer);
+	public List<SeatHold> getBookingByCustomer(Customer customer){
+		return bookingDAO.getBookingByCustomer(customer);
 	}
 	
 

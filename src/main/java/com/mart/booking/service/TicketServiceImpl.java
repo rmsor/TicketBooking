@@ -1,13 +1,12 @@
 package com.mart.booking.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,6 +26,7 @@ import com.mart.booking.entity.BookingType;
 import com.mart.booking.entity.Customer;
 import com.mart.booking.entity.Level;
 import com.mart.booking.entity.SeatHold;
+import com.mart.booking.exception.BookingException;
 import com.mart.booking.resource.IndexController;
 import com.mart.booking.util.RandomReservationCode;
 
@@ -73,7 +73,11 @@ public class TicketServiceImpl implements TicketService {
 		Map<Integer, Integer> seatsAvailable = getSeatsAvailable();
 		Integer totalSeats = 0;
 		if (venueLevel.isPresent()) {
-			totalSeats = seatsAvailable.get(venueLevel.get());
+			if(seatsAvailable.containsKey(venueLevel.get())){
+				totalSeats = seatsAvailable.get(venueLevel.get());
+			}else{
+				totalSeats =0;
+			}
 		} else {
 			for (Integer availSeats : seatsAvailable.values()) {
 				totalSeats += availSeats;
@@ -93,7 +97,7 @@ public class TicketServiceImpl implements TicketService {
 	*/
 	@Override
 	public SeatHold findAndHoldSeats(int numSeats, Optional<Integer> minLevel, Optional<Integer> maxLevel,
-			String customerEmail) {
+			String customerEmail) throws  BookingException {
 
 		int minLvl = 0;
 		int maxLvl = 0;
@@ -120,13 +124,16 @@ public class TicketServiceImpl implements TicketService {
 
 		SeatHold booking = getAvailableBooking(numSeats, minLvl, maxLvl, customer);
 
-		if (booking != null) {
+		if (booking != null && booking.getBookingDetails().size()>0) {
 			if (bookingDAO.add(booking) > 0) {
 				expireReservation(booking);
 				return booking;
+			}else{
+				throw new BookingException("couldnot book seat");
 			}
+		}else{
+			throw new BookingException("couldnot book seat");
 		}
-		return null;
 	}
 
 	/**
@@ -135,16 +142,17 @@ public class TicketServiceImpl implements TicketService {
 	* @param seatHoldId the seat hold identifier
 	* @param customerEmail the email address of the customer to which the seat hold	is assigned
 	* @return a reservation confirmation code
+	 * @throws BookingException 
 	*/
 	@Override
-	public String reserveSeats(int seatHoldId, String customerEmail) {
+	public String reserveSeats(int seatHoldId, String customerEmail) throws BookingException {
 
 		SeatHold booking = makeReservation(seatHoldId, customerEmail);
 
 		if (booking != null) {
 			return booking.getReservationCode();
 		} else {
-			return null;
+			throw new BookingException("couldnot find eligible booking");
 		}
 	}
 
@@ -154,9 +162,10 @@ public class TicketServiceImpl implements TicketService {
 	* @param seatHoldId the seat hold identifier
 	* @param customerEmail the email address of the customer to which the seat hold	is assigned
 	* @return a SeatHold object with all the booking information
+	 * @throws BookingException 
 	*/
 	@Override
-	public SeatHold makeReservation(Integer seatHoldId, String customerEmail) {
+	public SeatHold makeReservation(Integer seatHoldId, String customerEmail) throws BookingException {
 
 		SeatHold booking = bookingDAO.getById(seatHoldId);
 
@@ -165,9 +174,9 @@ public class TicketServiceImpl implements TicketService {
 			booking.setReservationCode(RandomReservationCode.next(reservationCodeLength));
 			bookingDAO.update(booking);
 			return booking;
+		}else{
+			throw new BookingException("couldnot find eligible booking");
 		}
-
-		return null;
 	}
 
 	/**
@@ -211,7 +220,7 @@ public class TicketServiceImpl implements TicketService {
 			return null;
 		}
 
-		Set<BookingDetails> bookingDetails = new HashSet<BookingDetails>();
+		List<BookingDetails> bookingDetails = new ArrayList<BookingDetails>();
 		SeatHold booking = new SeatHold();
 		booking.setBookingType(BookingType.BOOKED);
 		booking.setBookedDate(new Date());

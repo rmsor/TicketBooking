@@ -1,9 +1,9 @@
 package com.mart.booking.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -58,7 +58,7 @@ public class SeatHold implements Serializable{
 	
 	@OneToMany(fetch=FetchType.EAGER,mappedBy = "seatHold",cascade=CascadeType.ALL)
 	@JsonManagedReference
-	private Set<BookingDetails> bookingDetails=new HashSet<BookingDetails>(0);
+	private List<BookingDetails> bookingDetails=new ArrayList<BookingDetails>(0);
 	
 	private String reservationCode;
 
@@ -118,11 +118,11 @@ public class SeatHold implements Serializable{
 		this.customer = customer;
 	}
 	
-	public Set<BookingDetails> getBookingDetails() {
+	public List<BookingDetails> getBookingDetails() {
 		return bookingDetails;
 	}
 
-	public void setBookingDetails(Set<BookingDetails> bookingDetails) {
+	public void setBookingDetails(List<BookingDetails> bookingDetails) {
 		this.bookingDetails = bookingDetails;
 	}
 

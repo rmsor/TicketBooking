@@ -66,8 +66,8 @@ public class CustomerDAOImpl implements CustomerDAO{
 	 * @return customerId
 	 */
 	@Override
-	public Long add(Customer cust) {
-		return (Long)sessionFactory.getCurrentSession().save(cust);
+	public Integer add(Customer cust) {
+		return (Integer)sessionFactory.getCurrentSession().save(cust);
 	}
 
 }

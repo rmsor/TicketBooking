@@ -3,6 +3,7 @@ package com.mart.booking.service;
 import java.util.Optional;
 
 import com.mart.booking.entity.SeatHold;
+import com.mart.booking.exception.BookingException;
 
 public interface TicketService {
 	
@@ -22,8 +23,9 @@ public interface TicketService {
 	* @param maxLevel the maximum venue level
 	* @param customerEmail unique identifier for the customer
 	* @return a SeatHold object identifying the specific seats and related	information
+	 * @throws BookingException 
 	*/
-	 SeatHold findAndHoldSeats(int numSeats, Optional<Integer> minLevel, Optional<Integer> maxLevel, String customerEmail);
+	 SeatHold findAndHoldSeats(int numSeats, Optional<Integer> minLevel, Optional<Integer> maxLevel, String customerEmail) throws BookingException;
 	
 	/**
 	* Commit seats held for a specific customer
@@ -31,15 +33,17 @@ public interface TicketService {
 	* @param seatHoldId the seat hold identifier
 	* @param customerEmail the email address of the customer to which the seat hold	is assigned
 	* @return a reservation confirmation code
+	*  * @throws BookingException 
 	*/
-	String reserveSeats(int seatHoldId, String customerEmail);
+	String reserveSeats(int seatHoldId, String customerEmail) throws BookingException ;
 	
 	/**
 	 * Commit seats held for a specific customer
 	 * @param seatHoldId the seat hold identifier
 	 * @param customerEmail the email address of the customer to which the seat hold
 	 * @return SeatHold object identifying the specific seats and related information
+	 * @throws BookingException 
 	 */
-	SeatHold makeReservation(Integer seatHoldId, String customerEmail);
+	SeatHold makeReservation(Integer seatHoldId, String customerEmail) throws BookingException ;
 	
 }

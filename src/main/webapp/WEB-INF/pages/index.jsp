@@ -196,9 +196,22 @@
 			$('#bookingSubmit').click( function(e) {
 				e.preventDefault();	
 				
+				if($('#numSeats').val()==""){
+					alert("Please enter no. of seats to book seats");
+					$('#numSeats').focus();
+					return false;
+				}
+				if($('#customerEmail').val()==""){
+					alert("Please enter you email to book seats");
+					$('#customerEmail').focus();
+					return false;
+				}
+				
 				var lastRow=$('#bookingData > tbody:last-child');
 				$("#bookingData > tbody").html("");
 				$('#customerEmailSearch').val("");
+				
+				
 				
 			    $.ajax({
 			    	async:true,
@@ -233,6 +246,13 @@
 			
 			$('#searchBookingSubmit').click( function(e) {
 				e.preventDefault();	
+				
+				if($('#customerEmailSearch').val()==""){
+					alert("Please enter you email to search bookings");
+					$('#customerEmailSearch').focus();
+					return false;
+				}
+				
 				$("#bookingData > tbody").html("");
 				var lastRow=$('#bookingData > tbody:last-child');
 				var customerEmailSearch=$('#customerEmailSearch').val();
