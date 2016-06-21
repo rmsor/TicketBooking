@@ -9,11 +9,10 @@ Ticket Booking System
 * unzip folder TicketBooking-master.zip
 * go to terminal and cd to extracted location
 * type following command
-	`code()`
-	mvn clean install tomcat7:run
+	`mvn clean install tomcat7:run`
 * project will be deployed in tomcat
 * open your browser and access application using following URL
-	http://localhost:8080/TicketBooking/
+	`http://localhost:8080/TicketBooking/`
 
 
 
