@@ -1,5 +1,4 @@
-# ticket-booking
-## Ticket Booking System
+# Ticket Booking System
 
 ####Ticket booking system has following main functions
 * Get list of available seats optionally by seating levels
@@ -19,15 +18,15 @@
 ###Configurations
 * To configure time to expire booking and reservation code length following properties should be updated before deploying in application server
  
-File Name: \src\main\resources\properties\common.properties
+	File Name: \src\main\resources\properties\common.properties
 	
-	`booking.timeToExpireBooking=60
-	booking.reservationCodeLength=10`
+	booking.timeToExpireBooking=60
+	booking.reservationCodeLength=10
 
 * To configure front-end endpointURLs (if required)
   change the following line in \src\main\webapp\WEB-INF\pages\index.jsp file.
 
-			`var restAPIEndPoint="http://localhost:8080/TicketBooking/";	`
+	var restAPIEndPoint="http://localhost:8080/TicketBooking/";	`
 
 #### To deploy project using maven embedded tomcat
 ---------------------------------------------------
@@ -72,7 +71,6 @@ File Name: \src\main\resources\properties\common.properties
 
 #####ServiceURL:: http://localhost:8080/TicketBooking
 #####GET list of Levels:              {{ServiceURL}}/rest/level/list/v1_0 
-Optional level param
 
 Sample response
 
@@ -129,6 +127,7 @@ Sample response: level passed in request
 
 #####POST Add booking:                {{ServiceURL}}/rest/booking/add/v1_0
 Header: Content-Type: application/json
+
 Sample request
 ```json
 {
@@ -167,6 +166,7 @@ Sample Response
 
 #####PUT Reserve booking:             {{ServiceURL}}/rest/booking/reserve/v1_0
 Header: Content-Type: application/json
+
 Sample request
 ```json
 {
