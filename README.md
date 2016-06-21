@@ -17,8 +17,7 @@
 
 ###Configurations
 * To configure time to expire booking and reservation code length following properties should be updated before deploying in application server
- 
-	File Name: \src\main\resources\properties\common.properties
+   File Name: \src\main\resources\properties\common.properties
 	
 	booking.timeToExpireBooking=60
 	booking.reservationCodeLength=10
@@ -26,13 +25,13 @@
 * To configure front-end endpointURLs (if required)
   change the following line in \src\main\webapp\WEB-INF\pages\index.jsp file.
 
-	var restAPIEndPoint="http://localhost:8080/TicketBooking/";	`
+	var restAPIEndPoint="http://localhost:8080/TicketBooking/";
 
 #### To deploy project using maven embedded tomcat
 ---------------------------------------------------
 * install java 1.8 and maven  command in your computer
 * download zip file from https://github.com/rmsor/TicketBooking/archive/master.zip
-* unzip folder TicketBooking-master.zip
+* unzip file TicketBooking-master.zip
 * go to terminal and cd to extracted location
 * type following command
 	`mvn clean install tomcat7:run`
@@ -45,7 +44,7 @@
 ---------------------------------------------------
 * install java 1.8 and maven command in your computer
 * download zip file from https://github.com/rmsor/TicketBooking/archive/master.zip
-* unzip folder TicketBooking-master.zip
+* unzip file TicketBooking-master.zip
 * go to terminal and cd to extracted location
 * type following command
 	`mvn package`
@@ -59,7 +58,7 @@
 ---------------------------------------------------
 * install java 1.8 in your computer
 * download zip file from https://github.com/rmsor/TicketBooking/archive/master.zip
-* unzip folder TicketBooking-master.zip
+* unzip file TicketBooking-master.zip
 * import project into eclipse
 * convert project to maven project
 * run project in server (tomcat 7 version)
