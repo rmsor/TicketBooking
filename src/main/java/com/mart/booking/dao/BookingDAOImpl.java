@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SQLQuery;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -60,7 +61,22 @@ public class BookingDAOImpl implements BookingDAO{
 		List<SeatHold> bookingList = query.list();
 		return bookingList;
 	}
-
+	
+	
+	/**
+	 * get customer by email
+	 * @param email Customer email
+	 * @return Customer object
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<SeatHold> getBookingByEmail(Customer customer) {
+		Criteria criteria = sessionFactory.getCurrentSession().createCriteria(SeatHold.class);
+	    criteria.add(Restrictions.eq("customer", customer));
+		return (List<SeatHold>)criteria.list();
+	}
+	
+	
 	/**
 	  * adds new booking 
 	  * @param booking SeatHold object

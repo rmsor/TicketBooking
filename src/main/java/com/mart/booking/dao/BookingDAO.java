@@ -3,6 +3,7 @@ package com.mart.booking.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.mart.booking.entity.Customer;
 import com.mart.booking.entity.SeatHold;
 
 public interface BookingDAO {
@@ -46,4 +47,11 @@ public interface BookingDAO {
 	  */
 	 Map<Integer,Integer> getSeatsBooked();
 	 
+	 /**
+	  * get all booking done by customer
+	  * 
+	  * @param Customer customer object
+	  * @return List<SeatHold> objects
+	  */
+	 List<SeatHold> getBookingByEmail(Customer customer);
 }

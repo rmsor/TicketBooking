@@ -234,12 +234,6 @@
 			<version>${spring.version}</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.mockrunner</groupId>
-			<artifactId>mockrunner-jdbc</artifactId>
-			<version>0.4.2</version>
-			<scope>test</scope>
-		</dependency>
 		
 		<dependency>
 			<groupId>org.powermock</groupId>

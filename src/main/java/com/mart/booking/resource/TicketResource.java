@@ -1,5 +1,6 @@
 package com.mart.booking.resource;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -18,12 +19,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mart.booking.data.AvailableResponse;
+import com.mart.booking.data.BookingResponse;
+import com.mart.booking.entity.Customer;
 import com.mart.booking.entity.Level;
 import com.mart.booking.entity.SeatHold;
 import com.mart.booking.exception.BadRequestException;
+import com.mart.booking.exception.Error;
 import com.mart.booking.exception.ServerErrorException;
 import com.mart.booking.param.BookingParams;
 import com.mart.booking.param.ReserveParams;
+import com.mart.booking.service.CustomerService;
 import com.mart.booking.service.LevelService;
 import com.mart.booking.service.TicketService;
 
@@ -43,6 +48,9 @@ public class TicketResource {
 
 	@Autowired
 	LevelService levelService;
+	
+	@Autowired
+	CustomerService customerService;
 	
 	/**
 	 * Get available seats by optional param level
@@ -69,7 +77,7 @@ public class TicketResource {
 		}
 		Integer totalSeats = ticketService.numSeatsAvailable(levelOpt);
 
-		availableResponse.setAvilableSeats(totalSeats);
+		availableResponse.setAvailableSeats(totalSeats);
 
 		logger.info("method numSeatsAvailable completed. Execution Time (milliseconds): "
 				+ (System.currentTimeMillis() - startTime));
@@ -139,6 +147,33 @@ public class TicketResource {
 				+ (System.currentTimeMillis() - startTime));
 
 		return new ResponseEntity<SeatHold>(seatHold, HttpStatus.OK);
+	}
+	
+	/**
+	 * Get bookings by customer
+	 * @param customerEmail
+	 * @return ResponseEntity<BookingResponse>
+	 */
+	@RequestMapping(value = "/list/v1_0", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<BookingResponse> getBookingsByCustomer(
+			@RequestParam(value = "customerEmail", required = true) String customerEmail) {
+		Long startTime = System.currentTimeMillis();
+
+		BookingResponse bookingResponse = new BookingResponse();
+		Customer customer =customerService.getCustomerByEmail(customerEmail);	
+		
+		
+		if(customer!=null){
+			List<SeatHold> bookings= customerService.getBookingByEmail(customer);
+			bookingResponse.setBookings(bookings);
+		}else{
+			bookingResponse.addError(new Error("No Customer assosicated with that email Found!!"));
+		}
+		
+		logger.info("method numSeatsAvailable completed. Execution Time (milliseconds): "
+				+ (System.currentTimeMillis() - startTime));
+
+		return new ResponseEntity<BookingResponse>(bookingResponse, HttpStatus.OK);
 	}
 
 }

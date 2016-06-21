@@ -22,7 +22,7 @@ public class AvailableResponse extends BaseResponse implements Serializable{
 	 * 
 	 * @return availableSeats
 	 */
-	public Integer getAvilableSeats() {
+	public Integer getAvailableSeats() {
 		return availableSeats;
 	}
 	
@@ -30,7 +30,7 @@ public class AvailableResponse extends BaseResponse implements Serializable{
 	 * 
 	 * @param availableSeats
 	 */
-	public void setAvilableSeats(Integer availableSeats) {
+	public void setAvailableSeats(Integer availableSeats) {
 		this.availableSeats = availableSeats;
 	}
 	

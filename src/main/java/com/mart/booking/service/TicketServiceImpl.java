@@ -13,6 +13,8 @@ import java.util.TimerTask;
 
 import javax.annotation.PostConstruct;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,8 @@ import com.mart.booking.entity.BookingType;
 import com.mart.booking.entity.Customer;
 import com.mart.booking.entity.Level;
 import com.mart.booking.entity.SeatHold;
+import com.mart.booking.resource.IndexController;
+import com.mart.booking.util.RandomReservationCode;
 
 /**
  * booking service
@@ -47,7 +51,12 @@ public class TicketServiceImpl implements TicketService {
 
 	@Value("#{commonProperties['booking.timeToExpireBooking']}")
 	private int timeToExpireBooking;
-
+	
+	@Value("#{commonProperties['booking.reservationCodeLength']}")
+	private int reservationCodeLength;
+	
+	private final static Logger logger = LoggerFactory.getLogger(IndexController.class);
+	
 	@PostConstruct
 	public void setLevels() {
 		levels = levelDAO.list();
@@ -153,6 +162,7 @@ public class TicketServiceImpl implements TicketService {
 
 		if (booking != null && booking.getBookingType().equals(BookingType.BOOKED)) {
 			booking.setBookingType(BookingType.RESERVED);
+			booking.setReservationCode(RandomReservationCode.next(reservationCodeLength));
 			bookingDAO.update(booking);
 			return booking;
 		}
@@ -300,9 +310,12 @@ public class TicketServiceImpl implements TicketService {
 	private void expireReservation(SeatHold booking) {
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.SECOND, timeToExpireBooking);
+		
+		logger.info("calling timer to expire reseration at time (miliseconds) : "	+ System.currentTimeMillis());		
+		
 		Timer timer = new Timer();
 		timer.schedule(new ExpireReservation(booking), c.getTime());
-
+		
 	}
 	
 	/**
@@ -327,9 +340,13 @@ public class TicketServiceImpl implements TicketService {
 		 * do the update task
 		 */
 		public void run() {
+			
+			logger.info("expiring reseration at time (miliseconds) : "	+ System.currentTimeMillis());
+			
 			booking.setExpiredDate(new Date());
 			booking.setBookingType(BookingType.EXPIRED);
 			bookingDAO.update(booking);
+			
 		}
 	}
 
