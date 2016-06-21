@@ -19,13 +19,13 @@
 * To configure time to expire booking and reservation code length following properties should be updated before deploying in application server
    File Name: \src\main\resources\properties\common.properties
 	
-	booking.timeToExpireBooking=60
-	booking.reservationCodeLength=10
+	`booking.timeToExpireBooking=60
+	booking.reservationCodeLength=10`
 
 * To configure front-end endpointURLs (if required)
   change the following line in \src\main\webapp\WEB-INF\pages\index.jsp file.
 
-	var restAPIEndPoint="http://localhost:8080/TicketBooking/";
+	`var restAPIEndPoint="http://localhost:8080/TicketBooking/";`
 
 #### To deploy project using maven embedded tomcat
 ---------------------------------------------------
