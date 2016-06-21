@@ -352,9 +352,13 @@ public class TicketServiceImpl implements TicketService {
 			
 			logger.info("expiring reseration at time (miliseconds) : "	+ System.currentTimeMillis());
 			
-			booking.setExpiredDate(new Date());
-			booking.setBookingType(BookingType.EXPIRED);
-			bookingDAO.update(booking);
+			SeatHold latestCopyofBooking=bookingDAO.getById(booking.getBookingId());
+			
+			if(latestCopyofBooking.getBookingType()==BookingType.BOOKED){
+				latestCopyofBooking.setExpiredDate(new Date());
+				latestCopyofBooking.setBookingType(BookingType.EXPIRED);
+				bookingDAO.update(latestCopyofBooking);
+			}
 			
 		}
 	}
